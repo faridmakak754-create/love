@@ -6,31 +6,98 @@
 <title>Love Question</title>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     body {
         font-family: Arial, sans-serif;
-        display: flex;
         height: 100vh;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background: #ffe6f2;
+        background: linear-gradient(135deg, #ff9ec6, #ffa3d7, #ffd1eb);
+        position: relative;
+        overflow: hidden;
     }
+
+    h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #fff;
+        text-shadow: 0 0 10px #ff0077;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        color: #ff0066;
+        font-size: 25px;
+        animation: floatUp 5s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-700px); opacity: 0; }
+    }
+
     .btn {
         padding: 12px 25px;
         font-size: 18px;
-        margin: 10px;
         border: none;
-        border-radius: 8px;
+        border-radius: 25px;
         cursor: pointer;
+        margin: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
     }
+
+    .btn:active {
+        transform: scale(0.9);
+    }
+
     #yesBtn {
-        background: #ff4da6;
+        background: #ff1a75;
         color: white;
     }
+
     #noBtn {
-        background: #999;
+        background: #777;
         color: white;
         position: absolute;
+        transition: 0.2s;
+    }
+
+    /* Popup love message */
+    #popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        width: 270px;
+        box-shadow: 0 0 20px rgba(255, 0, 90, 0.5);
+        transition: 0.3s ease;
+    }
+
+    #popup.show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    #popup h3 {
+        color: #ff0066;
+        margin-bottom: 10px;
+    }
+
+    #popup p {
+        color: #333;
     }
 </style>
 </head>
@@ -42,30 +109,50 @@
 <button class="btn" id="yesBtn">YES</button>
 <button class="btn" id="noBtn">NO</button>
 
+<!-- Popup -->
+<div id="popup">
+    <h3>Yay! ❤️</h3>
+    <p>I love you too! 😍💘</p>
+</div>
+
 <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
+    const popup = document.getElementById("popup");
 
-    // Move NO button to random place
     function moveNoButton() {
-        let x = Math.random() * (window.innerWidth - 100);
-        let y = Math.random() * (window.innerHeight - 100);
+        let x = Math.random() * (window.innerWidth - 150);
+        let y = Math.random() * (window.innerHeight - 150);
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
     }
 
-    // PC: mouse enters
     noBtn.addEventListener("mouseenter", moveNoButton);
 
-    // MOBILE: user tries to tap NO
-    noBtn.addEventListener("touchstart", function(e) {
-        e.preventDefault();  // prevent clicking
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
         moveNoButton();
     });
 
     yesBtn.addEventListener("click", () => {
-        alert("Awwww I love you too ❤️");
+        popup.classList.add("show");
     });
+
+    // Create floating hearts
+    function createHeart() {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 500);
 </script>
 
 </body>
