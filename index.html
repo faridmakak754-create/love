@@ -7,87 +7,64 @@
 
 <style>
     body {
-        background: pink;
+        font-family: Arial, sans-serif;
         display: flex;
+        height: 100vh;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        font-family: Arial, sans-serif;
-        text-align: center;
+        flex-direction: column;
+        background: #ffe6f2;
     }
-
-    .box {
-        background: white;
-        padding: 30px 40px;
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
-
-    h2 {
-        margin-bottom: 25px;
-        font-size: 28px;
-        color: #d10067;
-    }
-
-    button {
+    .btn {
         padding: 12px 25px;
         font-size: 18px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
         margin: 10px;
-        transition: 0.2s;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
     }
-
     #yesBtn {
-        background: #28a745;
+        background: #ff4da6;
         color: white;
     }
-
     #noBtn {
-        background: #dc3545;
+        background: #999;
         color: white;
         position: absolute;
     }
-
-    #message {
-        margin-top: 20px;
-        font-size: 30px;
-        color: #ff0066;
-        font-weight: bold;
-    }
 </style>
 </head>
+
 <body>
 
-<div class="box">
-    <h2>Do you love me? ❤️</h2>
+<h2>Do you love me? ❤️</h2>
 
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-
-    <div id="message"></div>
-</div>
+<button class="btn" id="yesBtn">YES</button>
+<button class="btn" id="noBtn">NO</button>
 
 <script>
-    const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
-    const msg = document.getElementById("message");
+    const yesBtn = document.getElementById("yesBtn");
 
-    yesBtn.addEventListener("click", () => {
-        msg.innerHTML = "I love you too! ❤️😍";
+    // Move NO button to random place
+    function moveNoButton() {
+        let x = Math.random() * (window.innerWidth - 100);
+        let y = Math.random() * (window.innerHeight - 100);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    // PC: mouse enters
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    // MOBILE: user tries to tap NO
+    noBtn.addEventListener("touchstart", function(e) {
+        e.preventDefault();  // prevent clicking
+        moveNoButton();
     });
 
-    // NO button escapes when mouse comes near
-    noBtn.addEventListener("mouseover", () => {
-        const maxX = window.innerWidth - 100;
-        const maxY = window.innerHeight - 100;
-
-        const newX = Math.random() * maxX;
-        const newY = Math.random() * maxY;
-
-        noBtn.style.left = newX + "px";
-        noBtn.style.top = newY + "px";
+    yesBtn.addEventListener("click", () => {
+        alert("Awwww I love you too ❤️");
     });
 </script>
 
